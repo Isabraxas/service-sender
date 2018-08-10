@@ -4,7 +4,7 @@ eureka:
     hostname: localhost
 
 server:
-  port: 7011
+  port: 7012
 
 spring:
   kafka:
@@ -12,7 +12,7 @@ spring:
 
 topic:
   statement:
-    sender: sender3
+    sender: sender4
     update: update3
     retry: retry3
 

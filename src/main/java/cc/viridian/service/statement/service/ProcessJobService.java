@@ -3,7 +3,6 @@ package cc.viridian.service.statement.service;
 import cc.viridian.service.statement.model.JobTemplate;
 import cc.viridian.service.statement.model.SenderTemplate;
 import cc.viridian.service.statement.model.UpdateJobTemplate;
-import cc.viridian.service.statement.repository.StatementProducer;
 import cc.viridian.service.statement.repository.UpdateJobProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +13,12 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ProcessJobService {
 
-    private StatementProducer statementProducer;
-
     private UpdateJobProducer updateJobProducer;
 
     //private CorebankAdapterConfig corebankAdapterConfig;
 
     @Autowired
-    public ProcessJobService(StatementProducer statementProducer, UpdateJobProducer updateJobProducer /*, CorebankAdapterConfig corebankAdapterConfig */) {
-        this.statementProducer = statementProducer;
+    public ProcessJobService(UpdateJobProducer updateJobProducer /*, CorebankAdapterConfig corebankAdapterConfig */) {
         this.updateJobProducer = updateJobProducer;
         //this.corebankAdapterConfig = corebankAdapterConfig;
     }
@@ -35,10 +31,10 @@ public class ProcessJobService {
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
         updateJob.setId(data.getId());
         updateJob.setAccount(data.getAccount());
-        updateJob.setAdapterType("formatter");
+        updateJob.setAdapterType("sender");
         updateJob.setAdapterCode(data.getFormatAdapter());
         updateJob.setErrorCode( "" );
-        updateJob.setErrorDesc("");
+        updateJob.setErrorDesc("sent by email");
         updateJob.setLocalDateTime(LocalDateTime.now());
         updateJob.setShouldTryAgain(false);
 
