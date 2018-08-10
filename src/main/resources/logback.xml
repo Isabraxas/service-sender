@@ -1,0 +1,9 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="Refreshing org.springframework.context" level="WARN"/>
+    <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="WARN"/>
+    <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="WARN"/>
+    <logger name="cc.viridian" level="DEBUG"/>
+</configuration>

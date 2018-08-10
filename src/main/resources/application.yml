@@ -1,0 +1,18 @@
+eureka:
+  instance:
+    appname: sender-statement
+    hostname: localhost
+
+server:
+  port: 7011
+
+spring:
+  kafka:
+    bootstrap-servers: 142.93.60.121:9092
+
+topic:
+  statement:
+    sender: sender3
+    update: update3
+    retry: retry3
+

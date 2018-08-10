@@ -55,6 +55,16 @@
 			<version>2.1.7.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<artifactId>core-bank-provider</artifactId>
+			<groupId>cc.viridian</groupId>
+			<version>0.0.8</version>
+			<!-- for dev purposes
+                        <scope>system</scope>
+                        <systemPath>/Users/fernando/viridian/baneco/core-bank-provider/target/core-bank-provider-0.0.7.jar
+                        </systemPath>
+                        !-->
+		</dependency>
 <!--
         <dependency>
             <artifactId>formatter-provider</artifactId>
@@ -84,8 +94,8 @@
             <scope>system</scope>
             <systemPath>/Users/fernando/viridian/baneco/sample-bank/target/sample-bank-0.0.7.jar
             </systemPath>
--->
         </dependency>
+-->
 
 	</dependencies>
 
