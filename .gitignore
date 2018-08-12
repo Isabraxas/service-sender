@@ -9,5 +9,6 @@ dist/
 *.iws
 *.iml
 *.ipr
+test_generate.pdf
 
 

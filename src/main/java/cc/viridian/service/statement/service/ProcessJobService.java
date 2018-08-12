@@ -1,5 +1,6 @@
 package cc.viridian.service.statement.service;
 
+import cc.viridian.pdfadapter.PdfGenerator;
 import cc.viridian.service.statement.model.JobTemplate;
 import cc.viridian.service.statement.model.SenderTemplate;
 import cc.viridian.service.statement.model.UpdateJobTemplate;
@@ -26,6 +27,11 @@ public class ProcessJobService {
     public UpdateJobTemplate process(SenderTemplate data) {
         log.info("process formatter : " + data.getAccount() + " " + data.getFormatAdapter());
         log.info("process sender : " + data.getAccount() + " " + data.getSendAdapter());
+
+        PdfGenerator pdfGenerator = new PdfGenerator();
+        byte[] res;
+        res = pdfGenerator.generateDocument(data.getStatement());
+        String output = pdfGenerator.receiveDocument(res);
 
         //todo:
         UpdateJobTemplate updateJob = new UpdateJobTemplate();

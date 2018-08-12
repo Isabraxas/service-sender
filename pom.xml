@@ -75,32 +75,11 @@
         <dependency>
             <groupId>cc.viridian</groupId>
             <artifactId>pdf-adapter</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.3</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../pdf-adapter/target/pdf-adapter-0.0.2.jar</systemPath>
+            <systemPath>${basedir}/../pdf-adapter/target/pdf-adapter-0.0.3-jar-with-dependencies.jar</systemPath>
         </dependency>
 
-
-        <!--        <dependency>
-                    <artifactId>sender-provider</artifactId>
-                    <groupId>cc.viridian</groupId>
-                    <version>0.0.1</version>
-        < ! - - for dev purposes
-                    <scope>system</scope>
-                    <systemPath>/Users/fernando/viridian/baneco/core-bank-provider/target/core-bank-provider-0.0.7.jar
-                    </systemPath>
-                    !- ->
-                </dependency>
-                <dependency>
-                    <artifactId>formatter</artifactId>
-                    <groupId>cc.viridian</groupId>
-                    <version>0.0.8</version>
-        < ! - -
-                    <scope>system</scope>
-                    <systemPath>/Users/fernando/viridian/baneco/sample-bank/target/sample-bank-0.0.7.jar
-                    </systemPath>
-                </dependency>
-        -->
 
 	</dependencies>
 
