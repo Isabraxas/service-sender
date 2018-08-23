@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.viridian.service</groupId>
-	<artifactId>sender-statement</artifactId>
-	<version>0.0.1</version>
+	<artifactId>service-statement-sender</artifactId>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sender-statement</name>
+	<name>service-statement-sender</name>
 	<description>Bank statements project for Spring Boot</description>
 
 	<properties>
@@ -56,30 +56,20 @@
 		</dependency>
 
 		<dependency>
-			<artifactId>core-bank-provider</artifactId>
+			<artifactId>provider-corebank</artifactId>
 			<groupId>cc.viridian</groupId>
-			<version>0.0.8</version>
-			<!-- for dev purposes
-                        <scope>system</scope>
-                        <systemPath>/Users/fernando/viridian/baneco/core-bank-provider/target/core-bank-provider-0.0.7.jar
-                        </systemPath>
-                        !-->
+			<version>0.1.48</version>
 		</dependency>
-        <dependency>
-            <groupId>cc.viridian</groupId>
-            <artifactId>formatter-provider</artifactId>
-            <version>0.2</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../formatter-provider/target/formatter-provider-0.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>cc.viridian</groupId>
-            <artifactId>pdf-adapter</artifactId>
-            <version>0.0.3</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../pdf-adapter/target/pdf-adapter-0.0.3-jar-with-dependencies.jar</systemPath>
-        </dependency>
-
+		<dependency>
+			<groupId>cc.viridian</groupId>
+			<artifactId>provider-formatter</artifactId>
+			<version>0.1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>cc.viridian</groupId>
+			<artifactId>provider-sender</artifactId>
+			<version>0.1.11</version>
+		</dependency>
 
 	</dependencies>
 

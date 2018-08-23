@@ -1,10 +1,7 @@
 package cc.viridian.service.statement.config;
 
-import cc.viridian.service.statement.model.JobTemplate;
-import cc.viridian.service.statement.model.JobTemplateDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
