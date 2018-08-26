@@ -5,14 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@EnableScheduling
 @Slf4j
 public class MainApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MainApplication.class, args);
-
-		//sandbox
+    public static void main(final String[] args) {
+        SpringApplication.run(MainApplication.class, args);
     }
-
 }

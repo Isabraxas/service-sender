@@ -1,10 +1,6 @@
 package cc.viridian.service.statement.repository;
 
 import cc.viridian.service.statement.model.UpdateJobTemplate;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,8 +16,8 @@ public class UpdateJobProducer {
     @Autowired
     private KafkaTemplate<String, UpdateJobTemplate> kafkaTemplate;
 
-    public void send(String messageKey, UpdateJobTemplate data){
-        log.debug("sending updates for account "+ data.getAccount() + " with key " + messageKey);
+    public void send(final String messageKey, final UpdateJobTemplate data) {
+        log.debug("sending updates for account " + data.getAccount() + " with key " + messageKey);
 
         Message<UpdateJobTemplate> message = MessageBuilder
             .withPayload(data)

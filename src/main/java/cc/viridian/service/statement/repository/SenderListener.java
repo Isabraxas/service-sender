@@ -25,8 +25,8 @@ public class SenderListener {
     }
 
     @KafkaListener(topics = "${topic.statement.sender}")
-    public void receive(@Payload SenderTemplate data,
-                        @Headers MessageHeaders headers) {
+    public void receive(@Payload final SenderTemplate data,
+                        @Headers final MessageHeaders headers) {
         log.info("received message from topic: " + headers.get("kafka_receivedTopic")
                      + " key:" + headers.get("kafka_receivedMessageKey")
                      + " partition:" + headers.get("kafka_receivedPartitionId")

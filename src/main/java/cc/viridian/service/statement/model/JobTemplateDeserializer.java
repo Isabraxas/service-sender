@@ -6,18 +6,19 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import jdk.nashorn.internal.parser.JSONParser;
 import java.io.IOException;
 
 public class JobTemplateDeserializer extends JsonDeserializer<JobTemplate> {
 
     @Override
-    public JobTemplate deserialize(JsonParser p, DeserializationContext ctxt, JobTemplate intoValue) throws IOException {
-        return super.deserialize(p, ctxt, intoValue);
+    public JobTemplate deserialize(final JsonParser parser, final DeserializationContext ctxt,
+                                   final JobTemplate intoValue) throws IOException {
+        return super.deserialize(parser, ctxt, intoValue);
     }
 
     @Override
-    public JobTemplate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public JobTemplate deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+        throws IOException, JsonProcessingException {
         ObjectCodec oc = jsonParser.getCodec();
         JsonNode node = oc.readTree(jsonParser);
         System.out.println(node);
