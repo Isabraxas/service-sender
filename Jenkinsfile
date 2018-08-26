@@ -18,6 +18,20 @@ node {
             sh "mvn -Dbuild.number=${BUILD_NUMBER} -DskipTests clean package"
         }
     }
+    stage('Checkstyle') {
+        dir(repoName) {
+            sh "mvn checkstyle:checkstyle -Dcheckstyle.config.location=viridian_checks.xml"
+            publishHTML ( [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: false,
+                reportDir: 'target/site',
+                reportFiles: 'checkstyle.html',
+                reportName: 'HTML Report',
+                reportTitles: ''
+            ])
+        }
+    }
     stage('test') {
         dir(repoName) {
             sh "mvn -Dbuild.number=${BUILD_NUMBER} -Dmaven.test.failure.ignore package"
