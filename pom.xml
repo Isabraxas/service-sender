@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.viridian.service</groupId>
-	<artifactId>service-statement-sender</artifactId>
-	<version>0.1.SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <groupId>com.viridian.service</groupId>
+    <artifactId>service-statement-sender</artifactId>
+    <version>0.1.SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-	<name>service-statement-sender</name>
-	<description>Bank statements project for Spring Boot</description>
+    <name>service-statement-sender</name>
+    <description>Bank statements project for Spring Boot</description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <cayenne.version>4.0.RC1</cayenne.version>
-	</properties>
+    </properties>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
-		<relativePath/>
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+        <relativePath/>
+    </parent>
 
-	<dependencies>
+    <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -36,42 +36,42 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>2.1.7.RELEASE</version>
-		</dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>2.1.7.RELEASE</version>
+        </dependency>
 
-		<dependency>
-			<artifactId>provider-corebank</artifactId>
-			<groupId>cc.viridian</groupId>
-			<version>0.1.48</version>
-		</dependency>
-		<dependency>
-			<groupId>cc.viridian</groupId>
-			<artifactId>provider-formatter</artifactId>
-			<version>0.1.8</version>
-		</dependency>
-		<dependency>
-			<groupId>cc.viridian</groupId>
-			<artifactId>provider-sender</artifactId>
-			<version>0.1.11</version>
-		</dependency>
+        <dependency>
+            <artifactId>provider-corebank</artifactId>
+            <groupId>cc.viridian</groupId>
+            <version>0.1.48</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.viridian</groupId>
+            <artifactId>provider-formatter</artifactId>
+            <version>0.1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.viridian</groupId>
+            <artifactId>provider-sender</artifactId>
+            <version>0.1.11</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
     <build>
         <plugins>
@@ -85,24 +85,41 @@
         </plugins>
     </build>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<repositories>
-		<repository>
-			<id>central</id>
+    <repositories>
+        <repository>
+            <id>central</id>
             <name>desarrollo-releases</name>
             <url>http://desarrollo.viridian.cc:8081/artifactory/libs-release</url>
-		</repository>
+        </repository>
 
-	</repositories>
+    </repositories>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
 </project>
