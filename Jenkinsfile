@@ -14,7 +14,8 @@ node {
     stage('Build') {
         echo "building " + artifactName
         dir(repoName) {
-            sh "sed -i \"s/SNAPSHOT/${BUILD_NUMBER}/g\" pom.xml"
+            sh 'sed -i "s/.9999/.${BUILD_NUMBER}/g" pom.xml'
+            sh 'sed -i "s/\\\${artifact.version}/0.1.${BUILD_NUMBER}/g" pom.xml'
             sh "mvn -Dbuild.number=${BUILD_NUMBER} -DskipTests clean package"
         }
     }
@@ -54,7 +55,6 @@ node {
 
             slackSend color: 'good',
                 message: "*" + artifactName + "*\n" + summary + "\n_" + committerEmail + "_"
-
 
             sh '/var/lib/jenkins/viridian/deploy-' + repoName + '.sh'
         }

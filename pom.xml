@@ -5,7 +5,7 @@
 
     <groupId>com.viridian.service</groupId>
     <artifactId>service-statement-sender</artifactId>
-    <version>0.1.SNAPSHOT</version>
+    <version>${artifact.version}</version>
     <packaging>jar</packaging>
 
     <name>service-statement-sender</name>
@@ -17,6 +17,10 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <cayenne.version>4.0.RC1</cayenne.version>
+        <artifact.version>0.1.9999</artifact.version>
+        <provider.corebank.version>0.1.74</provider.corebank.version>
+        <provider.formatter.version>0.1.8</provider.formatter.version>
+        <provider.sender.version>0.1.11</provider.sender.version>
     </properties>
 
     <parent>
@@ -58,23 +62,41 @@
         <dependency>
             <artifactId>provider-corebank</artifactId>
             <groupId>cc.viridian</groupId>
-            <version>0.1.48</version>
+            <version>${provider.corebank.version}</version>
         </dependency>
         <dependency>
             <groupId>cc.viridian</groupId>
             <artifactId>provider-formatter</artifactId>
-            <version>0.1.8</version>
+            <version>${provider.formatter.version}</version>
         </dependency>
         <dependency>
             <groupId>cc.viridian</groupId>
             <artifactId>provider-sender</artifactId>
-            <version>0.1.11</version>
+            <version>${provider.sender.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Build-Jdk>${java.version} (${java.vendor} ${java.vm.version})</Build-Jdk>
+                            <Build-Version>${artifact.version}</Build-Version>
+                            <Build-OS>${os.name} ${os.arch} ${os.version}</Build-OS>
+                            <Specification-Version>${artifact.version}</Specification-Version>
+                            <Implementation-Version>${artifact.version}</Implementation-Version>
+                            <Provider-Corebank-Version>${provider.corebank.version}</Provider-Corebank-Version>
+                            <Provider-Formatter-Version>${provider.formatter.version}</Provider-Formatter-Version>
+                            <Provider-Sender-Version>${provider.sender.version}</Provider-Sender-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
