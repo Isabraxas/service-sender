@@ -1,8 +1,8 @@
 package cc.viridian.service.statement.config;
 
-import cc.viridian.provider.AdapterConfig;
-//import cc.viridian.provider.CoreBankProvider;
-//import cc.viridian.provider.spi.CoreBank;
+import cc.viridian.provider.FormatterConfig;
+import cc.viridian.provider.StatementFormatterProvider;
+import cc.viridian.provider.spi.StatementFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +26,11 @@ public class FormatterAdapterConfig {
     @Value("${spring.cloud.config.uri}")
     private String springCloudConfigUrl;
 
-    private HashMap<String, AdapterConfig> loadedClasses;
+    private HashMap<String, FormatterConfig> loadedClasses;
 
     private String applicationVersion;
 
-    public HashMap<String, AdapterConfig> getLoadedClasses() {
+    public HashMap<String, FormatterConfig> getLoadedClasses() {
         return loadedClasses;
     }
 
@@ -44,26 +44,26 @@ public class FormatterAdapterConfig {
      * @return list of valid adapters
      */
     @Bean
-    public HashMap<String, AdapterConfig> initializeAdapters() {
+    public HashMap<String, FormatterConfig> initializeAdapters() {
         try {
             Attributes appAttributes = getAttributesFromManifest(FormatterAdapterConfig.class);
             applicationVersion = "dev";
             if (appAttributes.getValue("Build-Version") != null) {
                 applicationVersion = appAttributes.getValue("Build-Version").toString();
             }
-/*
-            CoreBankProvider coreBankProvider = CoreBankProvider.getInstance();
-            loadedClasses = coreBankProvider.getAdapters();
+
+            StatementFormatterProvider formatterProvider = StatementFormatterProvider.getInstance();
+            loadedClasses = formatterProvider.getAdapters();
             if (loadedClasses.size() == 0) {
                 log.error("Fatal Error. There are zero Corebank adapters loaded in the system.");
                 log.error("Check load class path to include valid Corebank adapters.");
                 System.exit(1);
             }
 
-            for (AdapterConfig config : loadedClasses.values()) {
+            for (FormatterConfig config : loadedClasses.values()) {
                 config.loadConfigProperties(activeProfile, springCloudConfigUrl);
             }
-  */
+
         } catch (Exception e) {
             log.error("fatal error reading config properties from config server");
             log.error(e.getMessage());
