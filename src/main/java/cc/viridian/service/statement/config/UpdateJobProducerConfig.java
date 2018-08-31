@@ -28,7 +28,7 @@ public class UpdateJobProducerConfig {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Bean
+    @Bean(name = "producer-update")
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
