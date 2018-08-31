@@ -1,5 +1,7 @@
 package cc.viridian.service.statement.service;
 
+import cc.viridian.provider.spi.StatementFormatter;
+import cc.viridian.service.statement.config.FormatterAdapterConfig;
 import cc.viridian.service.statement.model.JobTemplate;
 import cc.viridian.service.statement.model.SenderTemplate;
 import cc.viridian.service.statement.model.UpdateJobTemplate;
@@ -11,52 +13,45 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
-public class ProcessJobService {
+public class ProcessSenderService {
 
     private UpdateJobProducer updateJobProducer;
+    //todo Retry Producer
 
-    //private CorebankAdapterConfig corebankAdapterConfig;
+    private FormatterAdapterConfig formatterAdapterConfig;
 
     @Autowired
-    public ProcessJobService(UpdateJobProducer updateJobProducer /*, CorebankAdapterConfig corebankAdapterConfig */) {
+    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig) {
         this.updateJobProducer = updateJobProducer;
-        //this.corebankAdapterConfig = corebankAdapterConfig;
+        this.formatterAdapterConfig = formatterAdapterConfig;
     }
 
     public UpdateJobTemplate process(final SenderTemplate data) {
-        log.info("process formatter : " + data.getAccount() + " " + data.getFormatAdapter());
-        log.info("process sender : " + data.getAccount() + " " + data.getSendAdapter());
+        log.info("process generateDocument: " + data.getAccount() + " " + data.getFormatAdapter()
+                     + " " + data.getDateFrom() + " " + data.getDateTo());
 
-        /*
+        StatementFormatter formatter = formatterAdapterConfig.getFormatterAdapter(data.getFormatAdapter());
+        if (formatter == null) {
+            return sendInvalidFormatterAdapter(data);
+        }
+
+        byte[] byteDocument;
+        log.debug("adapter class: " + formatter.getClass().getName());
+
+        byteDocument = formatter.generateDocument(data.getStatement());
+
+        log.info("byteDocument length: " + byteDocument.length);
+        log.info("process sendDocument??: " + data.getAccount() + " " + data.getSendAdapter()
+                     + " " + data.getDateFrom() + " " + data.getDateTo());
+
+        return sendNormalUpdateJob(data);
+/*
         PdfGenerator pdfGenerator = new PdfGenerator();
         byte[] res;
         res = pdfGenerator.generateDocument(data.getStatement());
         String output = pdfGenerator.receiveDocument(res);
-*/
-        //todo:
-        UpdateJobTemplate updateJob = new UpdateJobTemplate();
-        updateJob.setId(data.getId());
-        updateJob.setAccount(data.getAccount());
-        updateJob.setAdapterType("sender");
-        updateJob.setAdapterCode(data.getFormatAdapter());
-        updateJob.setErrorCode("");
-        updateJob.setErrorDesc("sent by email");
-        updateJob.setLocalDateTime(LocalDateTime.now());
-        updateJob.setShouldTryAgain(false);
 
-        updateJobProducer.send(data.getId().toString(), updateJob);
-        return updateJob;
-
-/*
-        CoreBank coreBank = corebankAdapterConfig.getCorebankAdapter(data.getCorebankAdapter());
-        if (coreBank == null) {
-            return sendInvalidCorebankAdapter(data);
-        }
-
-        log.debug("Corebank adapter class: " + coreBank.getClass().getName());
-        log.debug("processing statement from " + data.getDateFrom() + " to " + data.getDateTo());
-
-        GetStatementResponse response = coreBank.getStatement(data.getAccount(), data.getType(),
+        GetStatementResponse response = formatter.getStatement(data.getAccount(), data.getType(),
             data.getCurrency(), data.getDateFrom(), data.getDateTo() );
 
         Statement statement = response.getStatement();
@@ -90,14 +85,14 @@ public class ProcessJobService {
     }
 
     //return with Normal update
-    private UpdateJobTemplate sendNormalUpdateJob(final JobTemplate data) {
-        log.info("send updateJob for account: " + data.getAccount() + " " + data.getCorebankAdapter());
+    private UpdateJobTemplate sendNormalUpdateJob(final SenderTemplate data) {
+        log.info("send updateJob for account: " + data.getAccount() + " " + data.getFormatAdapter());
 
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
         updateJob.setId(data.getId());
         updateJob.setAccount(data.getAccount());
-        updateJob.setAdapterType("corebank");
-        updateJob.setAdapterCode(data.getCorebankAdapter());
+        updateJob.setAdapterType("formatter");
+        updateJob.setAdapterCode(data.getFormatAdapter());
         updateJob.setErrorCode("");
         updateJob.setErrorDesc("");
         updateJob.setLocalDateTime(LocalDateTime.now());
@@ -107,19 +102,39 @@ public class ProcessJobService {
         return updateJob;
     }
 
-    //return with invalid corebank adapter
-    private UpdateJobTemplate sendInvalidCorebankAdapter(final JobTemplate data) {
+    //return with invalid formatter adapter
+    private UpdateJobTemplate sendInvalidFormatterAdapter(final SenderTemplate data) {
         log.error(
-            "account " + data.getAccount() + " has an invalid or not loaded corebank adapter: "
-                + data.getCorebankAdapter());
+            "account " + data.getAccount() + " has an invalid or not loaded formatter adapter: "
+                + data.getFormatAdapter());
 
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
         updateJob.setId(data.getId());
         updateJob.setAccount(data.getAccount());
-        updateJob.setAdapterType("corebank");
-        updateJob.setAdapterCode(data.getCorebankAdapter());
+        updateJob.setAdapterType("formatter");
+        updateJob.setAdapterCode(data.getFormatAdapter());
         updateJob.setErrorCode("invalid-adapter");
-        updateJob.setErrorDesc("adapter " + data.getCorebankAdapter() + " is invalid or not loaded");
+        updateJob.setErrorDesc("adapter " + data.getFormatAdapter() + " is invalid or not loaded");
+        updateJob.setLocalDateTime(LocalDateTime.now());
+        updateJob.setShouldTryAgain(false);
+
+        updateJobProducer.send(data.getId().toString(), updateJob);
+        return updateJob;
+    }
+
+    //return with invalid sender adapter
+    private UpdateJobTemplate sendInvalidSenderAdapter(final SenderTemplate data) {
+        log.error(
+            "account " + data.getAccount() + " has an invalid or not loaded sender adapter: "
+                + data.getSendAdapter());
+
+        UpdateJobTemplate updateJob = new UpdateJobTemplate();
+        updateJob.setId(data.getId());
+        updateJob.setAccount(data.getAccount());
+        updateJob.setAdapterType("sender");
+        updateJob.setAdapterCode(data.getSendAdapter());
+        updateJob.setErrorCode("invalid-adapter");
+        updateJob.setErrorDesc("adapter " + data.getSendAdapter() + " is invalid or not loaded");
         updateJob.setLocalDateTime(LocalDateTime.now());
         updateJob.setShouldTryAgain(false);
 

@@ -1,10 +1,9 @@
 spring:
   application:
-    name: sender-statement
+    name: statementsender
   profiles:
     active: default
   cloud:
     config:
-      uri2: http://electron.viridian.cc:9002
       uri: http://localhost:7015
       profile: default

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Slf4j
+@Deprecated
 public class ObjectMapperConfig {
 
     @Bean

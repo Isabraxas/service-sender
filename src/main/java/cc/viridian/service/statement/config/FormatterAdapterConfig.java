@@ -55,8 +55,8 @@ public class FormatterAdapterConfig {
             StatementFormatterProvider formatterProvider = StatementFormatterProvider.getInstance();
             loadedClasses = formatterProvider.getAdapters();
             if (loadedClasses.size() == 0) {
-                log.error("Fatal Error. There are zero Corebank adapters loaded in the system.");
-                log.error("Check load class path to include valid Corebank adapters.");
+                log.error("Fatal Error. There are zero Formatter adapters loaded in the system.");
+                log.error("Check load class path to include valid Formatter adapters.");
                 System.exit(1);
             }
 
@@ -75,19 +75,17 @@ public class FormatterAdapterConfig {
     /**
      * get Formatter Adapter.
      *
-     * @param corebankId
+     * @param formatterId
      * @return
      */
-    //@Bean
-    /*
-    public CoreBank getCorebankAdapter(final String corebankId) {
-        if (loadedClasses.containsKey(corebankId)) {
-            return loadedClasses.get(corebankId).getAdapter();
+    public StatementFormatter getFormatterAdapter(final String formatterId) {
+        if (loadedClasses.containsKey(formatterId)) {
+            return loadedClasses.get(formatterId).getAdapter();
         } else {
             return null;
         }
     }
-*/
+
     private Attributes getAttributesFromManifest(final Class clazz) {
         Attributes attributes = new Attributes();
         String simpleClassName = clazz.getSimpleName() + ".class";

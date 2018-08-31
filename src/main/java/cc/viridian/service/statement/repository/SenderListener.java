@@ -1,7 +1,7 @@
 package cc.viridian.service.statement.repository;
 
 import cc.viridian.service.statement.model.SenderTemplate;
-import cc.viridian.service.statement.service.ProcessJobService;
+import cc.viridian.service.statement.service.ProcessSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +17,11 @@ public class SenderListener {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    private ProcessJobService processJobService;
+    private ProcessSenderService processSenderService;
 
     @Autowired
-    public SenderListener(ProcessJobService processJobService) {
-        this.processJobService = processJobService;
+    public SenderListener(ProcessSenderService processJobService) {
+        this.processSenderService = processJobService;
     }
 
     @KafkaListener(topics = "${topic.statement.sender}")
@@ -32,6 +32,6 @@ public class SenderListener {
                      + " partition:" + headers.get("kafka_receivedPartitionId")
                      + " offset:" + headers.get("kafka_offset"));
 
-        processJobService.process(data);
+        processSenderService.process(data);
     }
 }
