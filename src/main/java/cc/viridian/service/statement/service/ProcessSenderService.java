@@ -1,5 +1,6 @@
 package cc.viridian.service.statement.service;
 
+import cc.viridian.provider.payload.GetFormatterResponse;
 import cc.viridian.provider.spi.StatementFormatter;
 import cc.viridian.service.statement.config.FormatterAdapterConfig;
 import cc.viridian.service.statement.model.JobTemplate;
@@ -35,12 +36,16 @@ public class ProcessSenderService {
             return sendInvalidFormatterAdapter(data);
         }
 
+        GetFormatterResponse formatterResponse = new GetFormatterResponse();
+
         byte[] byteDocument;
         log.debug("adapter class: " + formatter.getClass().getName());
 
-        byteDocument = formatter.generateDocument(data.getStatement());
+        formatterResponse = formatter.generateDocument(data.getStatement());
 
-        log.info("byteDocument length: " + byteDocument.length);
+        log.info("error code: " + formatterResponse.getErrorCode());
+        log.info("error desc: " + formatterResponse.getErrorDesc());
+        log.info("byteDocument length: " + formatterResponse.getBytesDocument().length);
         log.info("process sendDocument??: " + data.getAccount() + " " + data.getSendAdapter()
                      + " " + data.getDateFrom() + " " + data.getDateTo());
 
