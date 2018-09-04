@@ -44,7 +44,7 @@ public class FormatterAdapterConfig {
      * @return list of valid adapters
      */
     @Bean
-    public HashMap<String, FormatterConfig> initializeAdapters() {
+    public HashMap<String, FormatterConfig> initializeFormatterAdapters() {
         try {
             Attributes appAttributes = getAttributesFromManifest(FormatterAdapterConfig.class);
             applicationVersion = "dev";

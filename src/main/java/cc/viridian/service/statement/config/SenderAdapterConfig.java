@@ -38,7 +38,7 @@ public class SenderAdapterConfig {
      * @return list of valid adapters
      */
     @Bean
-    public HashMap<String, SenderConfig> initializeAdapters() {
+    public HashMap<String, SenderConfig> initializeSenderAdapters() {
         try {
             StatementSenderProvider formatterProvider = StatementSenderProvider.getInstance();
             loadedClasses = formatterProvider.getAdapters();
