@@ -43,7 +43,7 @@ public class FormatterAdapterConfig {
      *
      * @return list of valid adapters
      */
-    @Bean
+    //@Bean
     public HashMap<String, FormatterConfig> initializeFormatterAdapters() {
         try {
             Attributes appAttributes = getAttributesFromManifest(FormatterAdapterConfig.class);

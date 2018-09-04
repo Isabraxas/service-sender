@@ -27,10 +27,13 @@ public class ProcessSenderService {
     private SenderAdapterConfig senderAdapterConfig;
 
     @Autowired
-    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
+    public ProcessSenderService(UpdateJobProducer updateJobProducer ,
                                 SenderAdapterConfig senderAdapterConfig) {
+
+    //public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
+    //                            SenderAdapterConfig senderAdapterConfig) {
         this.updateJobProducer = updateJobProducer;
-        this.formatterAdapterConfig = formatterAdapterConfig;
+        //this.formatterAdapterConfig = formatterAdapterConfig;
         this.senderAdapterConfig = senderAdapterConfig;
     }
 
