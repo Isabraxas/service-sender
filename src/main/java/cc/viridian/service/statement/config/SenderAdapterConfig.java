@@ -28,32 +28,18 @@ public class SenderAdapterConfig {
 
     private HashMap<String, SenderConfig> loadedClasses;
 
-    //private String applicationVersion;
-
-    //public HashMap<String, SenderConfig> getLoadedClasses() {
-    //    return loadedClasses;
-    //}
-
-    //public String getApplicationVersion() {
-    //    return applicationVersion;
-    //}
+    public HashMap<String, SenderConfig> getLoadedClasses() {
+        return loadedClasses;
+    }
 
     /**
-     * Initialize formatter adapters.
+     * Initialize sender adapters.
      *
      * @return list of valid adapters
      */
     @Bean
     public HashMap<String, SenderConfig> initializeAdapters() {
         try {
-            /*
-            Attributes appAttributes = getAttributesFromManifest(SenderAdapterConfig.class);
-            applicationVersion = "dev";
-            if (appAttributes.getValue("Build-Version") != null) {
-                applicationVersion = appAttributes.getValue("Build-Version").toString();
-            }
-            */
-
             StatementSenderProvider formatterProvider = StatementSenderProvider.getInstance();
             loadedClasses = formatterProvider.getAdapters();
             if (loadedClasses.size() == 0) {
@@ -75,7 +61,7 @@ public class SenderAdapterConfig {
     }
 
     /**
-     * get Formatter Adapter.
+     * get Sender Adapter.
      *
      * @param senderId
      * @return
@@ -88,29 +74,4 @@ public class SenderAdapterConfig {
         }
     }
 
-    /*
-    private Attributes getAttributesFromManifest(final Class clazz) {
-        Attributes attributes = new Attributes();
-        String simpleClassName = clazz.getSimpleName() + ".class";
-        String classPath = clazz.getResource(simpleClassName).toString();
-        if (classPath.startsWith("jar")) {
-            String manifestPath = classPath.substring(0, classPath.indexOf("!") + 1) + "/META-INF/MANIFEST.MF";
-            try {
-                Manifest manifest = new Manifest(new URL(manifestPath).openStream());
-                attributes = manifest.getMainAttributes();
-                for (Object key : attributes.keySet()) {
-                    if (attributes.getValue(key.toString()) != null) {
-                        log.info(key.toString() + ": " + attributes.getValue(key.toString()));
-                    }
-                }
-
-            } catch (MalformedURLException e) {
-                log.warn("MalformedURLException in: " + manifestPath);
-            } catch (IOException e) {
-                log.warn("IOException with file: " + manifestPath);
-            }
-        }
-        return attributes;
-    }
-    */
 }
