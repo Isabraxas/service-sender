@@ -1,8 +1,8 @@
 package cc.viridian.service.statement.config;
 
-import cc.viridian.provider.FormatterConfig;
-import cc.viridian.provider.StatementFormatterProvider;
-import cc.viridian.provider.spi.StatementFormatter;
+import cc.viridian.provider.SenderConfig;
+import cc.viridian.provider.StatementSenderProvider;
+import cc.viridian.provider.spi.StatementSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import java.util.jar.Manifest;
 @Slf4j
 @Service
 @Configuration
-public class FormatterAdapterConfig {
+public class SenderAdapterConfig {
 
     @Value("${spring.profiles.active}")
     private String activeProfile;
@@ -26,11 +26,11 @@ public class FormatterAdapterConfig {
     @Value("${spring.cloud.config.uri}")
     private String springCloudConfigUrl;
 
-    private HashMap<String, FormatterConfig> loadedClasses;
+    private HashMap<String, SenderConfig> loadedClasses;
 
     private String applicationVersion;
 
-    public HashMap<String, FormatterConfig> getLoadedClasses() {
+    public HashMap<String, SenderConfig> getLoadedClasses() {
         return loadedClasses;
     }
 
@@ -44,15 +44,15 @@ public class FormatterAdapterConfig {
      * @return list of valid adapters
      */
     @Bean
-    public HashMap<String, FormatterConfig> initializeAdapters() {
+    public HashMap<String, SenderConfig> initializeAdapters() {
         try {
-            Attributes appAttributes = getAttributesFromManifest(FormatterAdapterConfig.class);
+            Attributes appAttributes = getAttributesFromManifest(SenderAdapterConfig.class);
             applicationVersion = "dev";
             if (appAttributes.getValue("Build-Version") != null) {
                 applicationVersion = appAttributes.getValue("Build-Version").toString();
             }
 
-            StatementFormatterProvider formatterProvider = StatementFormatterProvider.getInstance();
+            StatementSenderProvider formatterProvider = StatementSenderProvider.getInstance();
             loadedClasses = formatterProvider.getAdapters();
             if (loadedClasses.size() == 0) {
                 log.error("Fatal Error. There are zero Formatter adapters loaded in the system.");
@@ -60,7 +60,7 @@ public class FormatterAdapterConfig {
                 System.exit(1);
             }
 
-            for (FormatterConfig config : loadedClasses.values()) {
+            for (SenderConfig config : loadedClasses.values()) {
                 config.loadConfigProperties(activeProfile, springCloudConfigUrl);
             }
 
@@ -75,12 +75,12 @@ public class FormatterAdapterConfig {
     /**
      * get Formatter Adapter.
      *
-     * @param formatId
+     * @param senderId
      * @return
      */
-    public StatementFormatter getFormatterAdapter(final String formatId) {
-        if (loadedClasses.containsKey(formatId)) {
-            return loadedClasses.get(formatId).getAdapter();
+    public StatementSender getSenderAdapter(final String senderId) {
+        if (loadedClasses.containsKey(senderId)) {
+            return loadedClasses.get(senderId).getAdapter();
         } else {
             return null;
         }

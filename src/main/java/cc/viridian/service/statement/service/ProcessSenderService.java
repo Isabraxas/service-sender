@@ -46,7 +46,6 @@ public class ProcessSenderService {
 
         log.info("error code: " + formatterResponse.getErrorCode());
         log.info("error desc: " + formatterResponse.getErrorDesc());
-        log.info("byteDocument length: " + formatterResponse.getBytesDocument().length);
         log.info("process sendDocument??: " + data.getAccount() + " " + data.getSendAdapter()
                      + " " + data.getDateFrom() + " " + data.getDateTo());
         return sendFormatterUpdateJob(data, formatterResponse);
@@ -63,7 +62,7 @@ public class ProcessSenderService {
         updateJob.setAdapterType("formatter");
         updateJob.setAdapterCode(ResponseAdapterCode.ADAPTER_FORMATTER.name());
         updateJob.setErrorCode(formatterResponse.getErrorCode().name());
-        updateJob.setErrorDesc(formatterResponse.getErrorCode().name());
+        updateJob.setErrorDesc(formatterResponse.getErrorDesc());
         updateJob.setLocalDateTime(LocalDateTime.now());
         updateJob.setShouldTryAgain(false);
 
