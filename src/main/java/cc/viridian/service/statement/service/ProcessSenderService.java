@@ -1,6 +1,7 @@
 package cc.viridian.service.statement.service;
 
 import cc.viridian.provider.payload.GetFormatterResponse;
+import cc.viridian.provider.payload.ResponseAdapterCode;
 import cc.viridian.provider.spi.StatementFormatter;
 import cc.viridian.service.statement.config.FormatterAdapterConfig;
 import cc.viridian.service.statement.model.JobTemplate;
@@ -48,45 +49,26 @@ public class ProcessSenderService {
         log.info("byteDocument length: " + formatterResponse.getBytesDocument().length);
         log.info("process sendDocument??: " + data.getAccount() + " " + data.getSendAdapter()
                      + " " + data.getDateFrom() + " " + data.getDateTo());
+        return sendFormatterUpdateJob(data, formatterResponse);
+    }
 
-        return sendNormalUpdateJob(data);
-/*
-        PdfGenerator pdfGenerator = new PdfGenerator();
-        byte[] res;
-        res = pdfGenerator.generateDocument(data.getStatement());
-        String output = pdfGenerator.receiveDocument(res);
+    //return with Normal update
+    private UpdateJobTemplate sendFormatterUpdateJob(final SenderTemplate senderTemplate,
+                                                     final GetFormatterResponse formatterResponse) {
+        //log.info("send updateJob for account: " + data.getAccount() + " " + data.getFormatAdapter());
 
-        GetStatementResponse response = formatter.getStatement(data.getAccount(), data.getType(),
-            data.getCurrency(), data.getDateFrom(), data.getDateTo() );
+        UpdateJobTemplate updateJob = new UpdateJobTemplate();
+        updateJob.setId( senderTemplate.getId());
+        updateJob.setAccount(senderTemplate.getAccount());
+        updateJob.setAdapterType("formatter");
+        updateJob.setAdapterCode(ResponseAdapterCode.ADAPTER_FORMATTER.name());
+        updateJob.setErrorCode(formatterResponse.getErrorCode().name());
+        updateJob.setErrorDesc(formatterResponse.getErrorCode().name());
+        updateJob.setLocalDateTime(LocalDateTime.now());
+        updateJob.setShouldTryAgain(false);
 
-        Statement statement = response.getStatement();
-
-        if (response.getWasThereError()) {
-            if (response.getErrorCode().equalsIgnoreCase("invalid-adapter")) {
-                return sendInvalidCorebankAdapter(data);
-            }
-            if (response.getErrorCode().equalsIgnoreCase("invalid-account")) {
-                return sendInvalidAccount(data);
-            }
-            if (response.getErrorCode().equalsIgnoreCase("network-error")) {
-                return sendNetworkErrorUpdateJob(data);
-            }
-            if (response.getErrorCode().equalsIgnoreCase("database-error")) {
-                return sendDatabaseErrorUpdateJob(data);
-            }
-
-        } else {
-            if (response.getStatement() != null) {
-                log.debug(response.getStatement().toString());
-                //send the statement to sender queue
-                statementProducer.send(data.getId().toString(), statement);
-                return sendNormalUpdateJob(data);
-            }
-            //error
-        }
-        log.error("invalid response " +  response.getErrorCode());
-        return null;  //shouldn't happen
-        */
+        updateJobProducer.send(senderTemplate.getId().toString(), updateJob);
+        return updateJob;
     }
 
     //return with Normal update
