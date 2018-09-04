@@ -28,15 +28,15 @@ public class SenderAdapterConfig {
 
     private HashMap<String, SenderConfig> loadedClasses;
 
-    private String applicationVersion;
+    //private String applicationVersion;
 
-    public HashMap<String, SenderConfig> getLoadedClasses() {
-        return loadedClasses;
-    }
+    //public HashMap<String, SenderConfig> getLoadedClasses() {
+    //    return loadedClasses;
+    //}
 
-    public String getApplicationVersion() {
-        return applicationVersion;
-    }
+    //public String getApplicationVersion() {
+    //    return applicationVersion;
+    //}
 
     /**
      * Initialize formatter adapters.
@@ -46,11 +46,13 @@ public class SenderAdapterConfig {
     @Bean
     public HashMap<String, SenderConfig> initializeAdapters() {
         try {
+            /*
             Attributes appAttributes = getAttributesFromManifest(SenderAdapterConfig.class);
             applicationVersion = "dev";
             if (appAttributes.getValue("Build-Version") != null) {
                 applicationVersion = appAttributes.getValue("Build-Version").toString();
             }
+            */
 
             StatementSenderProvider formatterProvider = StatementSenderProvider.getInstance();
             loadedClasses = formatterProvider.getAdapters();
@@ -86,6 +88,7 @@ public class SenderAdapterConfig {
         }
     }
 
+    /*
     private Attributes getAttributesFromManifest(final Class clazz) {
         Attributes attributes = new Attributes();
         String simpleClassName = clazz.getSimpleName() + ".class";
@@ -109,4 +112,5 @@ public class SenderAdapterConfig {
         }
         return attributes;
     }
+    */
 }

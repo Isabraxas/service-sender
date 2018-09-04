@@ -8,7 +8,6 @@ import cc.viridian.provider.spi.StatementFormatter;
 import cc.viridian.provider.spi.StatementSender;
 import cc.viridian.service.statement.config.FormatterAdapterConfig;
 import cc.viridian.service.statement.config.SenderAdapterConfig;
-import cc.viridian.service.statement.model.JobTemplate;
 import cc.viridian.service.statement.model.SenderTemplate;
 import cc.viridian.service.statement.model.UpdateJobTemplate;
 import cc.viridian.service.statement.repository.UpdateJobProducer;
@@ -28,9 +27,11 @@ public class ProcessSenderService {
     private SenderAdapterConfig senderAdapterConfig;
 
     @Autowired
-    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig) {
+    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
+                                SenderAdapterConfig senderAdapterConfig) {
         this.updateJobProducer = updateJobProducer;
         this.formatterAdapterConfig = formatterAdapterConfig;
+        this.senderAdapterConfig = senderAdapterConfig;
     }
 
     public UpdateJobTemplate process(final SenderTemplate data) {
