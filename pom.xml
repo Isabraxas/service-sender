@@ -19,8 +19,8 @@
         <cayenne.version>4.0.RC1</cayenne.version>
         <artifact.version>0.1.9999</artifact.version>
         <provider.corebank.version>0.1.81</provider.corebank.version>
-        <provider.formatter.version>0.1.24</provider.formatter.version>
-        <provider.sender.version>0.1.22</provider.sender.version>
+        <provider.formatter.version>0.1.26</provider.formatter.version>
+        <provider.sender.version>0.1.23</provider.sender.version>
     </properties>
 
     <parent>
