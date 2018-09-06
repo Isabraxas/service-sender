@@ -40,10 +40,10 @@ public class SenderAdapterConfig {
     @Bean
     public HashMap<String, SenderConfig> initializeSenderAdapters() {
         try {
-            StatementSenderProvider formatterProvider = StatementSenderProvider.getInstance();
-            loadedClasses = formatterProvider.getAdapters();
+            StatementSenderProvider statementSenderProvider = StatementSenderProvider.getInstance();
+            loadedClasses = statementSenderProvider.getAdapters();
             if (loadedClasses.size() == 0) {
-                log.error("Fatal Error. There are zero Formatter adapters loaded in the system.");
+                log.error("Fatal Error. There are zero Sender adapters loaded in the system.");
                 log.error("Check load class path to include valid Formatter adapters.");
                 System.exit(1);
             }

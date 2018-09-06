@@ -27,13 +27,10 @@ public class ProcessSenderService {
     private SenderAdapterConfig senderAdapterConfig;
 
     @Autowired
-    public ProcessSenderService(UpdateJobProducer updateJobProducer ,
+    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
                                 SenderAdapterConfig senderAdapterConfig) {
-
-    //public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
-    //                            SenderAdapterConfig senderAdapterConfig) {
         this.updateJobProducer = updateJobProducer;
-        //this.formatterAdapterConfig = formatterAdapterConfig;
+        this.formatterAdapterConfig = formatterAdapterConfig;
         this.senderAdapterConfig = senderAdapterConfig;
     }
 
@@ -60,7 +57,7 @@ public class ProcessSenderService {
         sendFormatterUpdateJob(data, formatterResponse);
 
         log.info("process sendDocument: " + data.getAccount() + " " + data.getSendAdapter());
-        StatementSender sender = senderAdapterConfig.getSenderAdapter(data.getFormatAdapter());
+        StatementSender sender = senderAdapterConfig.getSenderAdapter(data.getSendAdapter());
         if (sender == null) {
             return sendInvalidSenderAdapter(data);
         }
