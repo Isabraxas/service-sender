@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -53,7 +54,7 @@ public class SenderListenerConfig {
     public ConsumerFactory<String, SenderTemplate> consumerFactory() {
         log.info("ConsumerFactory : " + topicStatementSender);
 
-        ObjectMapper objectMapper = springMvcJacksonConverter.getObjectMapper();
+        ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         JsonDeserializer<SenderTemplate> jsonDeserializer = new JsonDeserializer(SenderTemplate.class, objectMapper);
