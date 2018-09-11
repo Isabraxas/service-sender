@@ -27,7 +27,7 @@ public class ProcessSenderService {
     private SenderAdapterConfig senderAdapterConfig;
 
     @Autowired
-    public ProcessSenderService(UpdateJobProducer updateJobProducer , FormatterAdapterConfig formatterAdapterConfig,
+    public ProcessSenderService(UpdateJobProducer updateJobProducer, FormatterAdapterConfig formatterAdapterConfig,
                                 SenderAdapterConfig senderAdapterConfig) {
         this.updateJobProducer = updateJobProducer;
         this.formatterAdapterConfig = formatterAdapterConfig;
@@ -86,7 +86,7 @@ public class ProcessSenderService {
     private UpdateJobTemplate sendFormatterUpdateJob(final SenderTemplate senderTemplate,
                                                      final GetFormatterResponse formatterResponse) {
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
-        updateJob.setId( senderTemplate.getId());
+        updateJob.setId(senderTemplate.getId());
         updateJob.setAccount(senderTemplate.getAccount());
         updateJob.setAdapterType("formatter");
         updateJob.setAdapterCode(ResponseAdapterCode.ADAPTER_FORMATTER.name());
@@ -102,7 +102,7 @@ public class ProcessSenderService {
     private UpdateJobTemplate sendSenderUpdateJob(final SenderTemplate senderTemplate,
                                                      final SendStatementResponse senderResponse) {
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
-        updateJob.setId( senderTemplate.getId());
+        updateJob.setId(senderTemplate.getId());
         updateJob.setAccount(senderTemplate.getAccount());
         updateJob.setAdapterType("sender");
         updateJob.setAdapterCode(ResponseAdapterCode.ADAPTER_SENDER.name());
