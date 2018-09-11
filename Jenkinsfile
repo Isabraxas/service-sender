@@ -31,6 +31,17 @@ node {
                 reportName: 'HTML Report',
                 reportTitles: ''
             ])
+
+            step([
+                $class: 'CheckStylePublisher',
+                pattern: '**/checkstyle-result.xml',
+                unstableTotalHigh: '0',
+                unstableTotalNormal: '0',
+                unstableNewHigh: '0',
+                unstableNewNormal: '0',
+
+                usePreviousBuildAsReference: true
+            ])
         }
     }
     stage('test') {
@@ -53,8 +64,16 @@ node {
                  returnStdout: true
             ).trim()
 
-            slackSend color: 'good',
-                message: "*" + artifactName + "*\n" + summary + "\n_" + committerEmail + "_"
+            def slackColor = 'good';
+            if (currentBuild.result == "UNSTABLE") {
+                slackColor = 'danger';
+            }
+            def slackFooter = '';
+            if (currentBuild.result != "SUCCESS") {
+                slackFooter = "\n`${currentBuild.result}`";
+            }
+            slackSend color: slackColor,
+                message: "*" + artifactName + "*\n" + summary + "\n_" + committerEmail + "_" + slackFooter
 
             sh '/var/lib/jenkins/viridian/deploy-' + repoName + '.sh'
         }
