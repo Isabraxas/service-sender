@@ -53,10 +53,10 @@ public class ProcessSenderService {
         log.info("error code: " + formatterResponse.getErrorCode());
         log.info("error desc: " + formatterResponse.getErrorDesc());
 
-        //todo: try catch IO/DB errors
         sendFormatterUpdateJob(data, formatterResponse);
 
         log.info("process sendDocument: " + data.getAccount() + " " + data.getSendAdapter());
+        log.info("AttemptNumber: " + data.getAttemptNumber() );
         StatementSender sender = senderAdapterConfig.getSenderAdapter(data.getSendAdapter());
         if (sender == null) {
             return sendInvalidSenderAdapter(data);
@@ -74,6 +74,7 @@ public class ProcessSenderService {
         statementDocument.setMimetype(formatterResponse.getMimetype());
         statementDocument.setFilename(formatterResponse.getFilename());
         statementDocument.setRecipientAccount(data.getRecipient());
+        statementDocument.setAttemptNumber(data.getAttemptNumber());
 
         senderResponse = sender.sendStatement(statementDocument);
 
