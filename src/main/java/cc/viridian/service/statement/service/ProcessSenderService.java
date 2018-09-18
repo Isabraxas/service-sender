@@ -56,7 +56,7 @@ public class ProcessSenderService {
         sendFormatterUpdateJob(data, formatterResponse);
 
         log.info("process sendDocument: " + data.getAccount() + " " + data.getSendAdapter());
-        log.info("AttemptNumber: " + data.getAttemptNumber() );
+        log.info("AttemptNumber: " + data.getAttemptNumber());
         StatementSender sender = senderAdapterConfig.getSenderAdapter(data.getSendAdapter());
         if (sender == null) {
             return sendInvalidSenderAdapter(data);
