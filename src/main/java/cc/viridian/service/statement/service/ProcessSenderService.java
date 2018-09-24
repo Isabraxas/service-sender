@@ -34,7 +34,7 @@ public class ProcessSenderService {
         this.senderAdapterConfig = senderAdapterConfig;
     }
 
-    public UpdateJobTemplate process(final SenderTemplate data) {
+    public UpdateJobTemplate process(final SenderTemplate data, final Integer partition, final Long offset) {
         log.info("process generateDocument: " + data.getAccount() + " " + data.getFormatAdapter()
                      + " " + data.getDateFrom() + " " + data.getDateTo());
 
@@ -81,7 +81,7 @@ public class ProcessSenderService {
         log.info("error code: " + senderResponse.getErrorCode());
         log.info("error desc: " + senderResponse.getErrorDesc());
 
-        return sendSenderUpdateJob(data, senderResponse);
+        return sendSenderUpdateJob(data, senderResponse, partition, offset);
     }
 
     private UpdateJobTemplate sendFormatterUpdateJob(final SenderTemplate senderTemplate,
@@ -101,7 +101,9 @@ public class ProcessSenderService {
     }
 
     private UpdateJobTemplate sendSenderUpdateJob(final SenderTemplate senderTemplate,
-                                                     final SendStatementResponse senderResponse) {
+                                                  final SendStatementResponse senderResponse,
+                                                  final Integer partition,
+                                                  final Long offset) {
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
         updateJob.setId(senderTemplate.getId());
         updateJob.setAccount(senderTemplate.getAccount());
@@ -111,6 +113,11 @@ public class ProcessSenderService {
         updateJob.setErrorDesc(senderResponse.getErrorDesc());
         updateJob.setLocalDateTime(LocalDateTime.now());
         updateJob.setShouldTryAgain(senderResponse.getShouldRetryAgain());
+
+        if (senderResponse.getShouldRetryAgain()) {
+            updateJob.setPartition(partition);
+            updateJob.setOffset(offset);
+        }
 
         updateJobProducer.send(senderTemplate.getId().toString(), updateJob);
         return updateJob;
@@ -137,8 +144,8 @@ public class ProcessSenderService {
 
     private UpdateJobTemplate sendInvalidSenderAdapter(final SenderTemplate data) {
         log.error(
-            "account " + data.getAccount() + " has an invalid or not loaded formatter adapter: "
-                + data.getFormatAdapter());
+            "account " + data.getAccount() + " has an invalid or not loaded sender adapter: "
+                + data.getSendAdapter());
 
         UpdateJobTemplate updateJob = new UpdateJobTemplate();
         updateJob.setId(data.getId());
@@ -153,4 +160,5 @@ public class ProcessSenderService {
         updateJobProducer.send(data.getId().toString(), updateJob);
         return updateJob;
     }
+
 }

@@ -27,11 +27,15 @@ public class SenderListener {
     @KafkaListener(topics = "${topic.statement.sender}")
     public void receive(@Payload final SenderTemplate data,
                         @Headers final MessageHeaders headers) {
+
+        Integer partition = (Integer) headers.get("kafka_receivedPartitionId");
+        Long offset = (Long) headers.get("kafka_offset");
+
         log.info("received message from topic: " + headers.get("kafka_receivedTopic")
                      + " key:" + headers.get("kafka_receivedMessageKey")
-                     + " partition:" + headers.get("kafka_receivedPartitionId")
-                     + " offset:" + headers.get("kafka_offset"));
+                     + " partition:" + partition
+                     + " offset:" + offset);
 
-        processSenderService.process(data);
+        processSenderService.process(data, partition, offset);
     }
 }
