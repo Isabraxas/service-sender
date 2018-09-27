@@ -20,11 +20,11 @@ import java.util.jar.Manifest;
 @Configuration
 public class FormatterAdapterConfig {
 
-    @Value("${spring.profiles.active}")
-    private String activeProfile;
+    //@Value("${spring.profiles.active}")
+    private String activeProfile = "default";
 
-    @Value("${spring.cloud.config.uri}")
-    private String springCloudConfigUrl;
+    //@Value("${spring.cloud.config.uri}")
+    private String springCloudConfigUrl = "http://desarrollo.viridian.cc:7000";
 
     private HashMap<String, FormatterConfig> loadedClasses;
 

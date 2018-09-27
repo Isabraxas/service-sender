@@ -5,5 +5,5 @@ spring:
     active: default
   cloud:
     config:
-      uri: http://localhost:7015
+      uri: http://localhost:7000
       profile: default

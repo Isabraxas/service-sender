@@ -15,11 +15,11 @@ import java.util.HashMap;
 @Configuration
 public class SenderAdapterConfig {
 
-    @Value("${spring.profiles.active}")
-    private String activeProfile;
+    //@Value("${spring.profiles.active}")
+    private String activeProfile = "default";
 
-    @Value("${spring.cloud.config.uri}")
-    private String springCloudConfigUrl;
+    //@Value("${spring.cloud.config.uri}")
+    private String springCloudConfigUrl = "http://desarrollo.viridian.cc:7000";
 
     private HashMap<String, SenderConfig> loadedClasses;
 
